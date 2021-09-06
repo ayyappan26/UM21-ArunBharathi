@@ -4,6 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * @author Arun Bharathi
+ *
+ * This class will connect the Database  
+ */
 public class ConnectionClass {
 	
 	public static Connection getDbConnection() throws SQLException {

@@ -3,11 +3,21 @@ package com.ultramain.um21.Employee;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+/**
+ * @author Arun Bharathi
+ *
+ * The Employee Bussiness Object class will have the methods for interact with User and DAO class 
+ * 
+ */
 public class EmployeeBussinessObject {
 	
 	Scanner scanner = new Scanner(System.in);
 	
-	public void addEmployees() 
+	/**
+	 * 
+	 * This method is the basic for the execution to begin to call the other functions
+	 */
+	public void employeesBasic() 
 	{
 		
 		EmployeeDAO employeeDAO = new EmployeeDAO();
@@ -17,10 +27,11 @@ public class EmployeeBussinessObject {
 		do 
 		{
 			
-			System.out.println("Enter Your Choice   ");
-			System.out.println("1. Register Employee");
-			System.out.println("2. View Employee    ");
-			System.out.println("3. Modify Employee  ");
+			System.out.println("Enter Your Choice    ");
+			System.out.println("1. Register an Employee Detail");
+			System.out.println("2. View an Employee Detail    ");
+			System.out.println("3. Alter an Employee Detail   ");
+			System.out.println("4. Delete an Employee Detail  ");
 			System.out.println("Enter Your Choice : ");
 
 			choice = scanner.nextInt();
@@ -34,6 +45,7 @@ public class EmployeeBussinessObject {
 					break;
 					
 				case 2:
+					
 					System.out.println("1.View All Details ");
 					System.out.println("2.View For a specific Employ ID ");
 					int viewChoice = scanner.nextInt();
@@ -52,10 +64,29 @@ public class EmployeeBussinessObject {
 					option = scanner.next().charAt(0);
 					break;
 				case 3:
+					
+					updateEmployee(employeeDAO);
+					System.out.println("Do you want to continue (Y/N)");
+					option = scanner.next().charAt(0);
+					break;
+					
+				case 4:
+					
+					DeleteEmployeeDetails(employeeDAO);
+					System.out.println("Employee Detail deleted Successfully. ");
+					System.out.println("Do you want to continue (Y/N)");
+					option = scanner.next().charAt(0);
+					break;
 			}
 		} while (option == 'Y');
 		scanner.close();
 	}
+	
+	/**
+	 * @param EmployeeDAO
+	 * 
+	 * This method will call viewEmployee method in Data Access Object which displays data in the database
+	 */
 	public void viewDetails(EmployeeDAO EmployeeDAO)
 	{
 		try {
@@ -65,11 +96,27 @@ public class EmployeeBussinessObject {
 		}
 	}
 	
-	public void DeleteEmployeeDetails()
+	/**
+	 * @param EmployeeDAO
+	 * 
+	 * This method will call deleteEmployeeDetails method in Data Access Object which delete an Employee Detail
+	 */
+	public void DeleteEmployeeDetails(EmployeeDAO EmployeeDAO)
 	{
-		
+		System.out.println("Enter the Employee ID : ");
+		int EmployeeID = scanner.nextInt();
+		try {
+			EmployeeDAO.deleteEmployeeDetails(EmployeeID);
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
+	/**
+	 * @param EmployeeDAO
+	 * 
+	 * This method will call displayEmployeeWithId method in Data Access Object which displays specified Employee Id of an Employee Detail
+	 */
 	public void viewByEmpId(EmployeeDAO EmployeeDAO)
 	{
 		System.out.println("Enter the Employee ID : ");
@@ -81,6 +128,11 @@ public class EmployeeBussinessObject {
 		}
 	}
 	
+	/**
+	 * @param employeeDAO
+	 * 
+	 * This method will call egisterEmployee method in Data Access Object which call getEmpDetails to get input from user to register
+	 */
 	public void registerEmployee(EmployeeDAO employeeDAO)
 	{
 		EmployeeDTO employeeDTO = getEmpDetails();
@@ -91,6 +143,33 @@ public class EmployeeBussinessObject {
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	/**
+	 * @param employeeDAO
+	 * 
+	 * This method will call updateEmployeeDetail method in Data Access Object which update the data in the database
+	 */
+	public void updateEmployee(EmployeeDAO employeeDAO)
+	{
+		
+		System.out.println("Enter the Employee ID to Update :");
+		int EmployeeID = scanner.nextInt();
+		EmployeeDTO employeeDTO = getEmpDetails();
+			
+		try
+		{
+			employeeDAO.updateEmployeeDetail(EmployeeID, employeeDTO);
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+	
+	/**
+	 * @return EmployeeDTO
+	 * 
+	 * This method will get input from the user and directs is to EmployeeDTO class for set
+	 */
 	public EmployeeDTO getEmpDetails()
 	{
 		
@@ -118,12 +197,4 @@ public class EmployeeBussinessObject {
 		
 	}
 	
-	public static void main(String args[]) {
-		
-		EmployeeBussinessObject employeeBO = new EmployeeBussinessObject();
-		
-		
-		employeeBO.addEmployees();
-		
-	}
 }

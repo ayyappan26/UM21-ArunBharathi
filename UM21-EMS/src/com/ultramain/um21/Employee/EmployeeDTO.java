@@ -1,6 +1,13 @@
 package com.ultramain.um21.Employee;
 
-public class EmployeeDTO {
+
+/**
+ * @author Arun Bharathi
+ *
+ * This is DTO class for Employee Manage System which has getters and setters 
+ */
+public class EmployeeDTO 
+{
 	
 	private String firstName;
 	private String lastName;
@@ -13,16 +20,10 @@ public class EmployeeDTO {
 		return firstName;
 	}
 	
-	/**
-	 * @param firstName
-	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 	
-	/**
-	 * @return
-	 */
 	public String getLastName() {
 		return lastName;
 	}

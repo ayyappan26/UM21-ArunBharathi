@@ -6,8 +6,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import com.ultramain.um21.connection.*;
 
+/**
+ * @author Arun Bharathi
+ * This is the Employee Data Access Object class which interact with Database
+ */
 public class EmployeeDAO {
 
+	/**
+	 * @throws SQLException
+	 * 
+	 * This method is called in Employee Business Object which will display the data in database
+	 */
 	public void viewEmployee() throws SQLException
 	{
 		
@@ -43,6 +52,12 @@ public class EmployeeDAO {
 		
 	}
 	
+	/**
+	 * @param EmployeeID
+	 * @throws SQLException
+	 * 
+	 * This method is called in Employee Business Object which will display the Employee detail from database of specified Employee ID 
+	 */
 	public void displayEmployeeWithId(int EmployeeID) throws SQLException
 	{
 		
@@ -76,13 +91,60 @@ public class EmployeeDAO {
 		
 	}
 	
-	public void deleteEmployeeDetails() throws SQLException
+	/**
+	 * @param EmployeeID
+	 * @throws SQLException
+	 * 
+	 * This method will is called in Employee Business Object which will delete Employee detail from database of specified Employee ID
+	 */
+	public void deleteEmployeeDetails(int EmployeeID) throws SQLException
 	{
 		Connection connection = ConnectionClass.getDbConnection();
 		
-		String deleteSql = "DELETE ";
+		String deleteSql = "DELETE FROM Details WHERE empId = ?";
+		PreparedStatement pst = connection.prepareStatement(deleteSql);
+		pst.setInt(1, EmployeeID);
+		
+		ResultSet rs = pst.executeQuery();
+		rs.next();
+		
 	}
 	
+	/**
+	 * @param EmployeeID
+	 * @param employeeDTO
+	 * @throws SQLException
+	 * 
+	 * This method will is called in Employee Business Object which will update Employee detail from database of specified Employee ID
+	 */
+	public void updateEmployeeDetail(int EmployeeID, EmployeeDTO employeeDTO) throws SQLException
+	{
+		
+		Connection connection = ConnectionClass.getDbConnection();
+		
+		String updateSql = " UPDATE Details SET  empID = ?, firstname = ? , lastname = ? , salary = ? , mobile = ? , department = ? WHERE empID = ?";
+		PreparedStatement pst = connection.prepareStatement(updateSql);
+		
+		
+		pst.setInt(1, employeeDTO.getEmpId());
+		pst.setString(2, employeeDTO.getFirstName());
+		pst.setString(3, employeeDTO.getLastName());
+		pst.setFloat(4, employeeDTO.getSalary());
+		pst.setInt(5, employeeDTO.getMobile());
+		pst.setString(6, employeeDTO.getDepartment());
+		pst.setInt(7, EmployeeID);
+		
+		int rowsUpdated = pst.executeUpdate();
+		System.out.println("Rows Updated : " + rowsUpdated);
+		
+	}
+	
+	/**
+	 * @param employeeDTO
+	 * @throws SQLException
+	 * 
+	 * This method will is called in Employee Business Object which will get user values and add the data in database
+	 */
 	public void registerEmployee(EmployeeDTO employeeDTO) throws SQLException
 	{
 		Connection connection = ConnectionClass.getDbConnection();
