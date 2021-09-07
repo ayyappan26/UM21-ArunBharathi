@@ -45,7 +45,16 @@ public class EmployeeDAO {
 			mobile = rs.getInt(5);
 			department = rs.getString(6);
 			
-			EmployeeDTO employeeDTO = new EmployeeDTO(employee_id, first_name, last_name, salary, mobile, department);
+			
+			EmployeeDTO employeeDTO = new EmployeeDTO();
+			
+			employeeDTO.setEmpId(employee_id);
+			employeeDTO.setFirstName(first_name);
+			employeeDTO.setLastName(last_name);
+			employeeDTO.setSalary(salary);
+			employeeDTO.setMobile(mobile);
+			employeeDTO.setDepartment(department);
+			
 			map.put(employee_id, employeeDTO);
 			
 		}

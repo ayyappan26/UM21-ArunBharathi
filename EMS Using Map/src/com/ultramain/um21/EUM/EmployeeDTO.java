@@ -18,15 +18,6 @@ public class EmployeeDTO
 		
 	}
 	
-	EmployeeDTO(int empId ,String firstName,String lastName,float salary,int mobile,String department)
-	{
-		this.empId = empId;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.salary = salary;
-		this.mobile = mobile;
-		this.department = department;
-	}
 	public String getFirstName() {
 		return firstName;
 	}
